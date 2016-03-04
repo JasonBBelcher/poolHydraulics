@@ -42,7 +42,7 @@ function Pool(shapes,turnoverHours, l, w, avgdepth, pipesize, pipelength) {
 	this.headcount      = [];
 	this.totalhead      = 0;
 	this.perimeter      = parseFloat(this.l) + parseFloat(this.w);
-	
+	this.skimmers       = null;
 }
 	
 	
@@ -191,9 +191,14 @@ Pool.prototype.headLossRemoveOne = function(el){
 }
 
 Pool.prototype.skimmerFlowRate = function(){
-	var gpm = this.getflowRate()/this.numSkimmers();
+	
+	if(!this.skimmers){
+		this.numSkimmers();
+	}
+
+	var gpm = this.getflowRate()/this.skimmers;
 	if(gpm < 25){
-		console.log("increase design flow rate!");
+		console.log("Your flowrate is: " + gpm + " increase design flow rate!");
 		
 	} else {
 
@@ -207,16 +212,21 @@ Pool.prototype.poolArea = function(){
 }
 
 
-Pool.prototype.numSkimmers = function(){
+Pool.prototype.numSkimmers = function(shape){
 	// returns sqr footage per skimmer 
-	if(this.shapes === "wading"){
+
+	if(shape === "wading"){
 		var skimmers = this.poolArea() / 200;
 	} else {
 		 	skimmers = this.poolArea() / 500; 
-	}	
+	}
 
-	return Math.ceil(skimmers);
+	this.skimmers = Math.ceil(skimmers)
+	return this.skimmers;
 }
+	
+
+	
 
 
 	
