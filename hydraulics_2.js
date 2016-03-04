@@ -1,5 +1,9 @@
 // Formulas for Pool Hydraulics 
 
+function waterVelocity(flowrate, pipeSize){
+	var fps =  parseFloat(0.408 * flowrate / square(pipeSize)).toFixed(2);
+	return fps; 
+}
 
 
 function area(l,w){
@@ -37,10 +41,8 @@ function Pool(shapes,turnoverHours, l, w, avgdepth, pipesize, pipelength) {
 	this.ftgsize        = pipesize; 
 	this.headcount      = [];
 	this.totalhead      = 0;
-
+	this.perimeter      = parseFloat(this.l) + parseFloat(this.w);
 	
-		
-
 }
 	
 	
@@ -67,10 +69,6 @@ Pool.prototype.ftgSelect = {
 
 
 			}
-		
-
-
-
 	}
 
 
@@ -114,14 +112,19 @@ Pool.prototype.updatePoolShape = function(obj,shape){
 // // d = inside diameter (inch) see pipe size chart 
 
 Pool.prototype.getHeadLoss = function(d){
-	   console.log(d);
-	   var c = 150;
-	   var hL =  0.2083 * (Math.pow(100/c, 1.852))  * (Math.pow(this.getflowRate(), 1.852)) / (Math.pow(parseFloat(d), 4.8655))
-	   var totalheadloss = parseFloat(this.totalhead + (this.pipelength / 100) * hL).toFixed(2);
-	   console.log("You have " + totalheadloss + " total head loss ");
-	   this.headcount.push(parseFloat(totalheadloss));
-	   return  totalheadloss;
+	   if(!d){
+	   	return "Cannot Calculate without an inner diameter."
+	   } else {
+		   console.log(d);
+		   var c = 150;
+		   var hL =  0.2083 * (Math.pow(100/c, 1.852))  * (Math.pow(this.getflowRate(), 1.852)) / (Math.pow(parseFloat(d), 4.8655))
+		   var totalheadloss = parseFloat(this.totalhead + (this.pipelength / 100) * hL).toFixed(2);
+		   console.log("You have " + totalheadloss + " total friction loss ");
+		   return  totalheadloss;
+	   }
 }
+		   
+		   	
 	 
 
 
@@ -187,6 +190,33 @@ Pool.prototype.headLossRemoveOne = function(el){
 		
 }
 
+Pool.prototype.skimmerFlowRate = function(){
+	var gpm = this.getflowRate()/this.numSkimmers();
+	if(gpm < 25){
+		console.log("increase design flow rate!");
+		
+	} else {
+
+		return Math.ceil(gpm); 
+	}
+
+}
+
+Pool.prototype.poolArea = function(){
+	return this.l * this.w
+}
+
+
+Pool.prototype.numSkimmers = function(){
+	// returns sqr footage per skimmer 
+	if(this.shapes === "wading"){
+		var skimmers = this.poolArea() / 200;
+	} else {
+		 	skimmers = this.poolArea() / 500; 
+	}	
+
+	return Math.ceil(skimmers);
+}
 
 
 	
