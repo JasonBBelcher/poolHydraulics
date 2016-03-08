@@ -29,7 +29,7 @@ function avgDepth(min, max){
 }
 
 
-function Pool(shapes,turnoverHours, l, w, avgdepth, pipesize, pipelength) {
+function Pool(shapes,turnoverHours, l, w, avgdepth, pipesize, pipelength, innerdia) {
 	
 	this.shapes         = shapes;
 	this.turnoverHours  = turnoverHours;
@@ -37,13 +37,18 @@ function Pool(shapes,turnoverHours, l, w, avgdepth, pipesize, pipelength) {
 	this.w              = w; 
 	this.avgdepth       = avgdepth; 
 	this.pipesize       = pipesize;
+	this.innerdia       = innerdia;
 	this.pipelength     = pipelength;
 	this.ftgsize        = pipesize; 
 	this.headcount      = [];
 	this.totalhead      = 0;
 	this.perimeter      = parseFloat(this.l) + parseFloat(this.w);
 	this.skimmers       = null;
+	this.velocity       = null;
+
 }
+
+
 	
 	
 Pool.prototype.ftgSelect = {
@@ -97,9 +102,9 @@ Pool.prototype.getGallons = function(){
 }
 
 
-Pool.prototype.updatePoolShape = function(obj,shape){
+Pool.prototype.updatePoolShape = function(shape){
 	
-	return obj.shapes = shape; 
+	return this.shapes = shape; 
 }
 
 
@@ -109,17 +114,18 @@ Pool.prototype.updatePoolShape = function(obj,shape){
 
 
 
-// // d = inside diameter (inch) see pipe size chart 
+// this.innerdia = inside diameter (inch) see pipe size chart 
 
-Pool.prototype.getHeadLoss = function(d){
-	   if(!d){
+Pool.prototype.getHeadLoss = function(){
+	   if(!this.innerdia){
 	   	return "Cannot Calculate without an inner diameter."
 	   } else {
-		   console.log(d);
+		   
 		   var c = 150;
-		   var hL =  0.2083 * (Math.pow(100/c, 1.852))  * (Math.pow(this.getflowRate(), 1.852)) / (Math.pow(parseFloat(d), 4.8655))
+		   var hL =  0.2083 * (Math.pow(100/c, 1.852))  * (Math.pow(this.getflowRate(), 1.852)) / (Math.pow(parseFloat(this.innerdia), 4.8655))
 		   var totalheadloss = parseFloat(this.totalhead + (this.pipelength / 100) * hL).toFixed(2);
 		   console.log("You have " + totalheadloss + " total friction loss ");
+		   this.totalhead += totalheadloss;
 		   return  totalheadloss;
 	   }
 }
@@ -130,8 +136,11 @@ Pool.prototype.getHeadLoss = function(d){
 
 Pool.prototype.getVelocity = function(){
 	
+
 	var fps =  parseFloat(0.408 * this.getflowRate() / square(this.pipesize)).toFixed(2);
-	return fps; 
+	console.log(fps);
+	return this.velocity = fps; 
+	
 }
 
 Pool.prototype.headLossAdder = function(){
@@ -193,13 +202,13 @@ Pool.prototype.headLossRemoveOne = function(el){
 Pool.prototype.skimmerFlowRate = function(){
 	
 	if(!this.skimmers){
-		this.numSkimmers();
+		this.getSkimmers();
 	}
 
 	var gpm = this.getflowRate()/this.skimmers;
 	if(gpm < 25){
 		console.log("Your flowrate is: " + gpm + " increase design flow rate!");
-		
+		return Math.ceil(gpm);
 	} else {
 
 		return Math.ceil(gpm); 
@@ -212,17 +221,14 @@ Pool.prototype.poolArea = function(){
 }
 
 
-Pool.prototype.numSkimmers = function(shape){
+Pool.prototype.getSkimmers = function(){
 	// returns sqr footage per skimmer 
 
-	if(shape === "wading"){
-		var skimmers = this.poolArea() / 200;
-	} else {
-		 	skimmers = this.poolArea() / 500; 
-	}
-
-	this.skimmers = Math.ceil(skimmers)
+	
+ 	this.skimmers = Math.ceil(this.poolArea() / 500); 
 	return this.skimmers;
+	
+
 }
 	
 

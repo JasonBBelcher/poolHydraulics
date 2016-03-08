@@ -1,0 +1,14 @@
+#btndiv {
+	padding-bottom: 30px;
+}
+
+.jumbotron {
+    margin-bottom: 30px;
+
+    background-image: url(./img/poolwater.jpg);
+    background-position: 0% 25%;
+    background-size: cover;
+    background-repeat: no-repeat;
+    color: white;
+    text-shadow: black 0.2em 0.2em 0.2em;
+}

@@ -83,10 +83,10 @@
 
 // //  calculates velocity and outputs as feet per second
 
-// function waterVelocity(flowrate, pipeSize){
-// 	var fps =  parseFloat(0.408 * flowrate / square(pipeSize)).toFixed(2);
-// 	return fps; 
-// }
+function waterVelocity(flowrate, pipeSize){
+	var fps =  parseFloat(0.408 * flowrate / square(pipeSize)).toFixed(2);
+	return fps; 
+}
 
 
 // // console.log(waterVelocity(60, 2));

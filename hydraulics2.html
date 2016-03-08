@@ -1,0 +1,148 @@
+<html>
+<head>
+	<title>Pool Hydraulics Calculator</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+	<link rel="stylesheet" type="text/css" href="styles.css">
+	
+</head>
+<body>
+	<div class="container">
+		<div class="jumbotron"><h1 class="text-center">Pool Hydraulics Calculator</h1></div>
+			<div class="row">
+				<form id="poolBranchForm">
+					<div class="col-md-2">
+						<div class="radio">
+						<h4>Pool Shape</h4>	
+						  <label>
+						    <input type="radio" name="poolShape" id="rectangle" value="rect" checked>
+						    Rectangle 
+						  </label>
+						</div>
+						<div class="radio">
+						  <label>
+						    <input type="radio" name="poolShape" id="oval" value="oval">
+						    Oval
+						  </label>
+						</div>
+						<div class="radio">
+						  <label>
+						    <input type="radio" name="poolShape" id="kidney" value="kidney">
+						    Kidney
+						  </label>
+						</div>
+						
+					</div>
+					<div class="col-md-2">
+						<div class="radio">
+						<h4>Pipe Size Selector for Headloss Calc</h4>	
+						  <label>
+						    <input type="radio" name="headloss" id="1.5" value="1.61" checked>
+						    1 1/2  
+						  </label>
+						</div>
+						<div class="radio">
+						  <label>
+						    <input type="radio" name="headloss" id="2" value="2.067">
+						    2" 
+						  </label>
+						</div>
+						<div class="radio">
+						  <label>
+						    <input type="radio" name="headloss" id="2.5" value="2.47">
+						    2 1/2" 
+						  </label>
+						</div>
+						<div class="radio">
+						  <label>
+						    <input type="radio" name="headloss" id="3" value="3.07">
+						    3" 
+						  </label>
+						</div>
+						<div class="radio">
+						  <label>
+						    <input type="radio" name="headloss" id="4" value="4.03">
+						    4" 
+						  </label>
+						</div>
+						<div class="radio">
+						  <label>
+						    <input type="radio" name="headloss" id="6" value="6.67">
+						    6" 
+						  </label>
+						</div>
+						<div class="radio">
+						  <label>
+						    <input type="radio" name="headloss" id="8" value="7.98">
+						    8"
+						  </label>
+						</div>
+					</div>
+		
+					<div class="col-md-4">
+						  <div class="form-group">
+						    <label for="Length">Length of Pool</label>
+						    <input type="text" class="form-control" id="Length" placeholder="Enter Length of Pool">
+						  </div>
+						  <div class="form-group">
+						    <label for="Width">Width of Pool</label>
+						    <input type="text" class="form-control" id="Width" placeholder="Enter Width of Pool">
+						  </div>
+						  <div class="form-group">
+						    <label for="turnover">Enter turnover hours</label>
+						    <input type="text" class="form-control" id="turnover" placeholder="Enter required turn over in hours ">
+						  </div>
+						  <div class="form-group">
+						    <label for="averageDepth">Average depth of pool</label>
+						    <input type="text" class="form-control" id="averageDepth" placeholder="Enter Average Depth of Pool (if known, otherwise leave blank)">
+						  </div>
+					</div>
+					<div class="col-md-4">
+						  <div class="form-group">
+						    <label for="shallowDepth">Shallow depth</label>
+						    <input type="text" class="form-control" id="shallowDepth" placeholder="Enter depth of shallow end of pool (leave blank if entered average depth)">
+						  </div>
+						  <div class="form-group">
+						    <label for="deepEndDepth">Deep end</label>
+						    <input type="text" class="form-control" id="deepEndDepth" placeholder="Enter depth of deep end of pool (leave blank if entered average depth)">
+						  </div>
+						  
+						  <div class="form-group">
+						    <label for="pipeLength">Enter pipe length in feet</label>
+						    <input type="text" class="form-control" id="pipeLength" placeholder="Enter amount of pipe used for this branch">
+						  </div>
+					</div>
+					
+					  
+					  
+			</form>
+				
+			</div>
+					  	<div id="btndiv" class="col-md-4">
+						  <button id="calcBtn" type="button" class="btn btn-primary">Calculate Branch</button>
+						  <button id="resetBtn" type="button" class="btn btn-danger">reset Branchs</button>
+					  	</div>	
+
+	</div>
+	
+	<div class="container">
+		<table id="branchOutput" class="table">
+		</table>
+	</div>	
+<script type="text/javascript" src="hydraulics_2.js"></script>
+<script type="text/javascript" src="UI.js"></script>
+
+</body>
+</html>
+		
+
+	
+		  
+		
+	
+
+
+
+			
+
+
+
