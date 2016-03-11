@@ -4,11 +4,51 @@
 
 .jumbotron {
     margin-bottom: 30px;
-
-    background-image: url(./img/poolwater.jpg);
-    background-position: 0% 25%;
+    margin-top: 20px;
+    background: #0044ff;
+    /*background-image: url(./img/poolwater.jpg);
+*/    background-position: 0% 25%;
     background-size: cover;
     background-repeat: no-repeat;
     color: white;
     text-shadow: black 0.2em 0.2em 0.2em;
+}
+
+#ftgSelect {
+	margin-top: 10px;
+}
+
+#ftgOutput {
+	margin-top: 20px;
+
+}
+
+.container {
+	background: #4489ff;
+	margin-top: 20px;
+	border-radius: 6px;
+}
+
+.form-control {
+	background: #ddddff;
+}
+
+.btn-danger {
+	background: #9833ff;
+}
+
+.btn-primary {
+	background: #0000ff;
+}
+
+.btn-warning{
+	background: #4455fe;
+}
+
+.btn-warning:hover {
+	background: #5577fa;
+}
+
+body {
+	background: #aaaaff;
 }

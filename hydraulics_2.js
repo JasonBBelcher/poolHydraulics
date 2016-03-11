@@ -51,30 +51,7 @@ function Pool(shapes,turnoverHours, l, w, avgdepth, pipesize, pipelength, innerd
 
 	
 	
-Pool.prototype.ftgSelect = {
 
-		"1.5" : {
-				
-				elbow90: 4.0,
-				elbow45: 2.1, 
-				teeThru: 2.7,
-				tee:     8.4,
-				checkValve: 15.2     
-
-
-			},
-
-			"2": {
-				
-				elbow90: 5.7,
-				elbow45: 2.6, 
-				teeThru: 4.0,
-				tee:     12,
-				checkValve: 19.1     
-
-
-			}
-	}
 
 
 	
@@ -231,7 +208,65 @@ Pool.prototype.getSkimmers = function(){
 
 }
 	
+// object to store fitting size to headloss chart
 
+fittings = {
+
+		"1.5" : {
+				
+				elbow90: 4.0,
+				elbow45: 2.1, 
+				teeThru: 2.7,
+				tee:     8.4,
+				checkValve: 15.2     
+
+
+			},
+
+			"2": {
+				
+				elbow90: 5.7,
+				elbow45: 2.6, 
+				teeThru: 4.0,
+				tee:     12,
+				checkValve: 19.1     
+
+
+			},
+			"2.5": {
+
+				elbow90: 6.9,
+				elbow45: 3.1, 
+				teeThru: 4.9,
+				tee:     14.7,
+				checkValve: 22
+			},
+			"3": {
+
+				elbow90: 7.9,
+				elbow45: 4.0, 
+				teeThru: 6.1,
+				tee:     16.4,
+				checkValve: 27
+			},
+			"4": {
+
+				elbow90: 11.4,
+				elbow45: 5.1, 
+				teeThru: 7.9,
+				tee:     22,
+				checkValve: 38
+			},
+			"6": {
+
+				elbow90: 16.7,
+				elbow45: 8.0, 
+				teeThru: 12.3,
+				tee:     32.7
+				
+			}
+
+	}
 	
 
 

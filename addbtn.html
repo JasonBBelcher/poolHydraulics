@@ -1,0 +1,39 @@
+<html>
+<head>
+	<title></title>
+</head>
+<body>
+	<select>
+	  <option value="1">add 1</option>
+	  <option value="2">add 2</option>
+	  <option value="3">add 3</option>
+	  <option value="4">add 4</option>
+	</select>
+<button>Press Me</button>
+<div id="output"></div>
+<script type="text/javascript">
+var counter = 0;
+var button = document.querySelector("button");
+var div = document.getElementById("output");
+var selectBox = document.querySelector("select");
+var index = selectBox.selectedIndex; 
+var selectedOptionVal = selectBox.options[index].value; 
+
+button.addEventListener("click", function(){
+	counter += 1; 
+	div.innerHTML = counter;
+});
+
+selectBox.addEventListener("click", function(){
+	index = selectBox.selectedIndex;
+	selectedOptionVal = selectBox.options[index].value;
+	counter += parseFloat(selectedOptionVal);
+	div.innerHTML = counter;
+});
+
+
+
+
+</script>
+</body>
+</html>

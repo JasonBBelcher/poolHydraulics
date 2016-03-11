@@ -10,9 +10,9 @@
 		<div class="jumbotron"><h1 class="text-center">Pool Hydraulics Calculator</h1></div>
 			<div class="row">
 				<form id="poolBranchForm">
-					<div class="col-md-2">
+					<div class="col-xs-6 col-md-1">
 						<div class="radio">
-						<h4>Pool Shape</h4>	
+						<h4>Shape</h4>	
 						  <label>
 						    <input type="radio" name="poolShape" id="rectangle" value="rect" checked>
 						    Rectangle 
@@ -32,9 +32,9 @@
 						</div>
 						
 					</div>
-					<div class="col-md-2">
+					<div class="col-xs-6 col-md-1">
 						<div class="radio">
-						<h4>Pipe Size Selector for Headloss Calc</h4>	
+						<h4>Pipe Size</h4>	
 						  <label>
 						    <input type="radio" name="headloss" id="1.5" value="1.61" checked>
 						    1 1/2  
@@ -77,8 +77,20 @@
 						  </label>
 						</div>
 					</div>
+					<div class="col-md-2">
+						<h4>Add fittings to branch</h4>
+						<select class="form-control" id="ftgSelect" name="fittings">
+						    
+						    <option value="90">90 degree Elbow</option>
+						    <option value="45">45 degree Elbow</option>
+						    <option value="T">Tee </option>
+						</select>
+						<div id="ftgOutput"></div>
+						<button id="resetFtgs" type="button" class="btn btn-danger">reset fittings</button>
+						    
+					</div>
 		
-					<div class="col-md-4">
+					<div class="col-xs-6 col-md-3">
 						  <div class="form-group">
 						    <label for="Length">Length of Pool</label>
 						    <input type="text" class="form-control" id="Length" placeholder="Enter Length of Pool">
@@ -96,7 +108,7 @@
 						    <input type="text" class="form-control" id="averageDepth" placeholder="Enter Average Depth of Pool (if known, otherwise leave blank)">
 						  </div>
 					</div>
-					<div class="col-md-4">
+					<div class="col-xs-6 col-md-4">
 						  <div class="form-group">
 						    <label for="shallowDepth">Shallow depth</label>
 						    <input type="text" class="form-control" id="shallowDepth" placeholder="Enter depth of shallow end of pool (leave blank if entered average depth)">
@@ -117,17 +129,21 @@
 			</form>
 				
 			</div>
-					  	<div id="btndiv" class="col-md-4">
+					  	<div id="btndiv" class="col-md-6">
 						  <button id="calcBtn" type="button" class="btn btn-primary">Calculate Branch</button>
-						  <button id="resetBtn" type="button" class="btn btn-danger">reset Branchs</button>
+						  <button id="resetBtn" type="button" class="btn btn-danger">reset Branches</button>
+						  <button id="removeone" type="button" class="btn btn-warning">remove last</button>
 					  	</div>	
 
+					<div id="error"></div>
 	</div>
 	
 	<div class="container">
 		<table id="branchOutput" class="table">
 		</table>
-	</div>	
+	</div>
+	<script type="text/javascript" src="https://code.jquery.com/jquery-2.2.1.min.js"></script>	
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
 <script type="text/javascript" src="hydraulics_2.js"></script>
 <script type="text/javascript" src="UI.js"></script>
 
