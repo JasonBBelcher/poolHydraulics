@@ -208,7 +208,7 @@ Pool.prototype.getSkimmers = function(){
 
 }
 	
-// object to store fitting size to headloss chart
+// object to store fitting headloss chart
 
 fittings = {
 
