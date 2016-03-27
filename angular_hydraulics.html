@@ -1,0 +1,65 @@
+<html ng-app="app">
+	<head>
+		<title></title>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+	</head>
+	<body>
+		<div ng-controller="PoolCtrl">
+			Length: <input type="text" ng-model="l"><br>
+			Width: <input type="text" ng-model="w"><br>
+			Average Depth: <input type="text" ng-model="d"><br>
+			turnover : <input type="text" ng-model="turnover"><br>
+			<button ng-click="calcPool()">calc</button>
+
+			<h2>Output</h2>
+		<div>
+						Gallons:{{gallonsOutput}}  <br>
+						Required Flowrate: {{flowRateOutput}}
+		</div>
+			
+		</div>
+		
+	</body>
+<script type="text/javascript">
+	// function PoolCtrl($scope){
+	// 	$scope.l = ''; 
+	// 	$scope.w= ''; 
+	// 	$scope.d = ''; 
+	// 	$scope.getGallons = function(){
+	// 		$scope.gallons = $scope.l * $scope.w * $scope.d * 7.5
+	// 	}
+	// }
+
+	var app = angular.module('app', []);
+
+	app.service('FormulaService', function(){
+		
+
+		this.getGallons = function(l,w,d){
+			 this.gallons = l * w * d * 7.5
+			return this.gallons; 
+		}
+
+		this.getFlowRate = function(turnover){
+			var mins = turnover * 60; 
+			var flowrate = parseFloat(this.gallons / mins).toFixed(2);
+			return flowrate; // in gallons per minute
+		}
+	});
+
+	app.controller('PoolCtrl', function($scope, FormulaService){
+		$scope.calcPool = function(){
+			$scope.gallonsOutput = FormulaService.getGallons($scope.l, $scope.w, $scope.d)
+			$scope.flowRateOutput = FormulaService.getFlowRate($scope.turnover)
+		}
+
+		
+	});
+
+
+		
+
+
+
+</script>
+</html>
