@@ -9,31 +9,56 @@
 			Width: <input type="text" ng-model="w"><br>
 			Average Depth: <input type="text" ng-model="d"><br>
 			turnover : <input type="text" ng-model="turnover"><br>
+			pipe size : <input type="text" ng-model="pipesize"><br>
+			pipe length : <input type="text" ng-model="pipelength"><br>
 			<button ng-click="calcPool()">calc</button>
+			
 
 			<h2>Output</h2>
 		<div>
 						Gallons:{{gallonsOutput}}  <br>
-						Required Flowrate: {{flowRateOutput}}
+						Required Flowrate: {{flowRateOutput}} <br>
+						water velocity: {{velocityOutput}} <br>
+						head loss: {{headLossOutput}} <br>
+						
+					
+
 		</div>
 			
 		</div>
 		
 	</body>
 <script type="text/javascript">
-	// function PoolCtrl($scope){
-	// 	$scope.l = ''; 
-	// 	$scope.w= ''; 
-	// 	$scope.d = ''; 
-	// 	$scope.getGallons = function(){
-	// 		$scope.gallons = $scope.l * $scope.w * $scope.d * 7.5
-	// 	}
-	// }
-
+	
 	var app = angular.module('app', []);
 
-	app.service('FormulaService', function(){
+	app.service('UtilityService', function(){
 		
+
+
+
+		this.square = function(x){
+		return x * x; 
+		}
+
+		
+
+
+		
+	});
+
+
+
+	app.service('FormulaService', function(UtilityService){
+		
+		this.getHeadLoss = function(flowrate, pipelength, pipesize){
+		   var c = 150;
+		   var hL =  0.2083 * (Math.pow(100/c, 1.852))  * (Math.pow(flowrate, 1.852)) / (Math.pow(parseFloat(pipesize), 4.8655))
+		   var totalheadloss = parseFloat(UtilityService.totalhead + (pipelength / 100) * hL).toFixed(2);
+		   UtilityService.totalhead += totalheadloss;
+		   return  totalheadloss;
+		}
+		  
 
 		this.getGallons = function(l,w,d){
 			 this.gallons = l * w * d * 7.5
@@ -45,12 +70,31 @@
 			var flowrate = parseFloat(this.gallons / mins).toFixed(2);
 			return flowrate; // in gallons per minute
 		}
+
+		this.waterVelocity = function(flowrate, pipesize){
+			var fps =  parseFloat(0.408 * flowrate / UtilityService.square(pipesize)).toFixed(2);
+			return fps; 		
+		}
+
+		this.innerdia = {
+			"1.5" : 1.61, 
+			"2" : 2.067
+		}; 
+
+		this.totalhead = 0;
+
+		
+
 	});
 
 	app.controller('PoolCtrl', function($scope, FormulaService){
 		$scope.calcPool = function(){
 			$scope.gallonsOutput = FormulaService.getGallons($scope.l, $scope.w, $scope.d)
 			$scope.flowRateOutput = FormulaService.getFlowRate($scope.turnover)
+			$scope.velocityOutput = FormulaService.waterVelocity($scope.flowRateOutput, $scope.pipesize)
+			$scope.innerdiaOutput = FormulaService.innerdia[$scope.pipesize];
+			console.log($scope.innerdiaOutput);
+			$scope.headLossOutput = FormulaService.getHeadLoss($scope.flowRateOutput, $scope.pipelength, $scope.innerdiaOutput )
 		}
 
 		
