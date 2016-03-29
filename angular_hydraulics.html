@@ -9,7 +9,7 @@
 			Width: <input type="text" ng-model="w"><br>
 			Average Depth: <input type="text" ng-model="d"><br>
 			turnover : <input type="text" ng-model="turnover"><br>
-			pipe size : <input type="text" ng-model="pipesize"><br>
+			pipe size : <input type="text" ng-model="pipeSize"><br>
 			pipe length : <input type="text" ng-model="pipelength"><br>
 			<button ng-click="calcPool()">calc</button>
 			
@@ -34,12 +34,38 @@
 
 	app.service('UtilityService', function(){
 		
-
-
-
 		this.square = function(x){
 		return x * x; 
 		}
+
+		this.area = function(l,w){
+			return l * w; 
+		}
+
+		this.circleArea = function(r){
+			return Math.round((square(r)) * Math.PI);
+		}
+
+		this.rightTriangle = function(l, w){
+			return area(l, w) / 2; 
+		}
+
+
+		this.avgDepth = function(min, max){
+			return (min + max) / 2; 
+		}	
+
+		// match pipe size to equivalent pipe inner diameter 
+
+		this.innerdia = {
+			"1.5" : 1.61, 
+			"2" : 2.067,
+			"2.5": 2.47,
+			"3": 3.07, 
+			"4": 4.03, 
+			"6": 6.67,
+			"8": 7.98
+		}; 
 
 		
 
@@ -53,10 +79,16 @@
 		
 		this.getHeadLoss = function(flowrate, pipelength, pipesize){
 		   var c = 150;
+
+		   var totalhead = 0;
+		   
 		   var hL =  0.2083 * (Math.pow(100/c, 1.852))  * (Math.pow(flowrate, 1.852)) / (Math.pow(parseFloat(pipesize), 4.8655))
-		   var totalheadloss = parseFloat(UtilityService.totalhead + (pipelength / 100) * hL).toFixed(2);
-		   UtilityService.totalhead += totalheadloss;
-		   return  totalheadloss;
+		   
+		   this.totalheadloss = parseFloat(totalhead + (parseFloat(pipelength) / 100) * hL).toFixed(2);
+		   
+		   totalhead += this.totalheadloss;
+		   return  this.totalheadloss;
+		   
 		}
 		  
 
@@ -65,36 +97,37 @@
 			return this.gallons; 
 		}
 
+		
+
 		this.getFlowRate = function(turnover){
-			var mins = turnover * 60; 
-			var flowrate = parseFloat(this.gallons / mins).toFixed(2);
-			return flowrate; // in gallons per minute
+			this.mins = turnover * 60; 
+			this.flowrate = parseFloat(this.gallons / this.mins).toFixed(2);
+			return this.flowrate; // in gallons per minute
 		}
 
 		this.waterVelocity = function(flowrate, pipesize){
-			var fps =  parseFloat(0.408 * flowrate / UtilityService.square(pipesize)).toFixed(2);
-			return fps; 		
+			 this.fps =  parseFloat(0.408 * flowrate / UtilityService.square(pipesize)).toFixed(2);
+			return this.fps; 		
 		}
 
-		this.innerdia = {
-			"1.5" : 1.61, 
-			"2" : 2.067
-		}; 
 
-		this.totalhead = 0;
-
+		
 		
 
 	});
 
-	app.controller('PoolCtrl', function($scope, FormulaService){
+	app.controller('PoolCtrl', function($scope, FormulaService, UtilityService){
+		
 		$scope.calcPool = function(){
 			$scope.gallonsOutput = FormulaService.getGallons($scope.l, $scope.w, $scope.d)
 			$scope.flowRateOutput = FormulaService.getFlowRate($scope.turnover)
-			$scope.velocityOutput = FormulaService.waterVelocity($scope.flowRateOutput, $scope.pipesize)
-			$scope.innerdiaOutput = FormulaService.innerdia[$scope.pipesize];
-			console.log($scope.innerdiaOutput);
+			$scope.velocityOutput = FormulaService.waterVelocity($scope.flowRateOutput, $scope.pipeSize)
+			// convert pipesize input to inner diameter of pipe size for head loss calculation
+			$scope.innerdiaOutput = UtilityService.innerdia[$scope.pipeSize]; 
+			// calculate headloss based on flowrate pipelength and pipesize already given
 			$scope.headLossOutput = FormulaService.getHeadLoss($scope.flowRateOutput, $scope.pipelength, $scope.innerdiaOutput )
+
+			
 		}
 
 		
